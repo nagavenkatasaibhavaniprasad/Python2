@@ -1,0 +1,90 @@
+
+# Campus Event Financial Planning
+
+print("=" * 45)
+print(" CAMPUS EVENT FINANCIAL PLANNING ")
+print("=" * 45)
+
+# Input details
+venue = float(input("Enter venue cost: Rs. "))
+equipment = float(input("Enter equipment cost: Rs. "))
+transport = float(input("Enter transport cost: Rs. "))
+catering = float(input("Enter catering cost per participant: Rs. "))
+certificate = float(input("Enter certificate cost per participant: Rs. "))
+participants = int(input("Enter expected participants: "))
+sponsorship = float(input("Enter sponsorship amount: Rs. "))
+contribution = float(input("Enter contribution per participant: Rs. "))
+
+# Validate inputs
+if (venue < 0 or equipment < 0 or transport < 0
+        or catering < 0 or certificate < 0
+        or sponsorship < 0 or contribution < 0
+        or participants <= 0):
+    print("Invalid input. Please enter valid values.")
+
+else:
+    # Store fixed costs in a tuple
+    fixed_costs = (venue, equipment, transport)
+
+    # Tuple unpacking
+    venue_cost, equipment_cost, transport_cost = fixed_costs
+
+    # Calculate costs
+    fixed_total = venue_cost + equipment_cost + transport_cost
+    variable_cost = catering + certificate
+    total_cost = fixed_total + variable_cost * participants
+
+    # Expense list
+    expenses = [
+        ["Venue", venue],
+        ["Equipment", equipment],
+        ["Catering", catering * participants],
+        ["Transport", transport],
+        ["Certificates", certificate * participants]
+    ]
+
+    # Calculate sponsorship shortfall
+    shortfall = max(0, total_cost - sponsorship)
+
+    # Calculate total available funds
+    participant_funds = contribution * participants
+    total_funds = sponsorship + participant_funds
+    balance = total_funds - total_cost
+
+    # Calculate minimum registrations to break even
+    registrations = 0
+
+    while (sponsorship + contribution * registrations < fixed_total + variable_cost * registrations):
+        registrations += 1
+
+    # Display budget report
+    print("\n" + "=" * 45)
+    print("             EVENT BUDGET REPORT")
+    print("=" * 45)
+
+    for item in expenses:
+        name, amount = item
+        print(name, ": Rs.", round(amount, 2))
+
+    print("-" * 45)
+    print("Fixed costs: Rs.", round(fixed_total, 2))
+    print("Variable cost per participant: Rs.", round(variable_cost, 2))
+    print("Total event cost: Rs.", round(total_cost, 2))
+    print("Sponsorship: Rs.", round(sponsorship, 2))
+    print("Sponsorship shortfall: Rs.", round(shortfall, 2))
+    print("Contribution per participant: Rs.", round(contribution, 2))
+    print("Total participant contributions: Rs.", round(participant_funds, 2))
+    print("Total available funds: Rs.", round(total_funds, 2))
+    print("Remaining balance: Rs.", round(balance, 2))
+    print("Minimum registrations to break even:", registrations)
+
+    # Check financial status
+    if balance >= 0:
+        print("Status: Event budget is covered.")
+    else:
+        print("Status: Additional funds are required.")
+
+    # Pattern generation
+    print("=" * 45)
+    print("       EVENT PLANNING COMPLETED")
+    print("=" * 45)
